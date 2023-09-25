@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horoscope</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Data Storage Example</h1>
+        <p>Enter your name and birthdate:</p>
+        <input type="text" id="name" placeholder="Name">
+        <input type="date" id="birthdate">
+        <button onclick="storeData()">Store Data</button>
+        <button onclick="retrieveData()">Retrieve Data</button>
+        <button onclick="clearData()">Clear Data</button>
+        <p id="result"></p>
+    </div>
+    
+    <script>
+        // Initialize the userData array
+        let userData = [];
+    
+        // Function to store data in local storage
+        function storeData() {
+            const name = document.getElementById("name").value;
+            const birthdate = document.getElementById("birthdate").value;
+            if (name && birthdate) {
+                // Add the new data to the array
+                userData.push({ name, birthdate });
+    
+                // Store the updated array in localStorage
+                localStorage.setItem('userData', JSON.stringify(userData));
+    
+                document.getElementById("result").textContent = `Data has been stored in local storage.`;
+            } else {
+                alert("Please enter both your name and birthdate.");
+            }
+        }
+    
+        // Function to retrieve and display all stored data
+        function retrieveData() {
+            const storedData = localStorage.getItem('userData');
+            if (storedData) {
+                userData = JSON.parse(storedData); // Update the userData array
+                // Display all stored data
+                let resultText = "";
+                userData.forEach(item => {
+                    resultText += `Name: ${item.name}, Birthdate: ${item.birthdate}\n`;
+                });
+                document.getElementById("result").textContent = resultText;
+            } else {
+                document.getElementById("result").textContent = "No data found in local storage.";
+            }
+        }
+    
+        // Function to clear all stored data
+        function clearData() {
+            localStorage.removeItem('userData');
+            userData = []; // Clear the userData array
+            document.getElementById("result").textContent = "All data has been cleared from local storage.";
+        }
+    </script>
+    
+    
+</body>
+</html>
